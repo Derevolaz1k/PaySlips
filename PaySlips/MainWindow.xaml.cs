@@ -96,9 +96,9 @@ namespace Payslips
 
         private void SendMessageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(EmailTextBox.Text) || string.IsNullOrEmpty(PasswordTextBox.ToString()) || string.IsNullOrEmpty(SMTPTextBox.Text) || string.IsNullOrEmpty(SMTPPortTextBox.Text))
+            if (string.IsNullOrEmpty(EmailTextBox.Text) || string.IsNullOrEmpty(PasswordTextBox.ToString()) || string.IsNullOrEmpty(SMTPTextBox.Text) || string.IsNullOrEmpty(SMTPPortTextBox.Text)||string.IsNullOrEmpty(PdfPath.Text))
             {
-                MessageBox.Show("Проверьте заполненность полей \"Email\", \"Пароль\", \"SMTP\", \"SMTP порт\"");
+                MessageBox.Show("Проверьте заполненность полей \"Email\", \"Пароль\", \"SMTP\", \"SMTP порт\", \"Путь к файлу\"");
                 return;
             }
             int port;

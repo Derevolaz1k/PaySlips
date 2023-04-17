@@ -32,7 +32,7 @@
         <TextBox x:Name="PdfPath" MaxLines="1" HorizontalAlignment="Left" Margin="42,383,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" AutomationProperties.IsColumnHeader="True" Grid.Column="1"/>
         <Button x:Name="SendMessageButton" Content="Отправить" HorizontalAlignment="Left" Margin="523,455,0,0" VerticalAlignment="Top" Click="SendMessageButton_Click" Grid.ColumnSpan="2"/>
         <CheckBox x:Name="SelectAllRButton" Content="Выбрать всех" HorizontalAlignment="Left" Margin="413,457,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.035,-0.064" Checked="SelectAll_CheckBox" Unchecked="SelectAll_CheckBox"/>
-        <Button x:Name="OutputPersonalListFromFile" Content="Выгрузить список" HorizontalAlignment="Left" Margin="110,103,0,0" VerticalAlignment="Top" Click="OutputPersonalListFromFile_Click" RenderTransformOrigin="0.256,1.405" Grid.Column="1"/>
+        <Button x:Name="OutputPersonalListFromFile" Content="Загрузить список из .txt" HorizontalAlignment="Left" Margin="110,103,0,0" VerticalAlignment="Top" Click="OutputPersonalListFromFile_Click" RenderTransformOrigin="0.256,1.405" Grid.Column="1"/>
         <Grid Margin="409,143,15,149" Grid.ColumnSpan="2" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

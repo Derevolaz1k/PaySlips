@@ -6,7 +6,12 @@
 	 <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>coin_dollar_money_icon_252058.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="coin_dollar_money_icon_252058.ico" />
+  </ItemGroup>
 
   <ItemGroup>
 	  
