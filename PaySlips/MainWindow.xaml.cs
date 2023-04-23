@@ -67,31 +67,31 @@ namespace Payslips
 
         private void OutputPersonalListFromFile_Click(object sender, RoutedEventArgs e)
         {
-            Regex emailChecker = new Regex(@"[^\s]*@[a-z0-9.-]*");
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "txt файлы (*.txt)|*.txt";
-            string path = string.Empty;
-            List<Person> persons = new();
-            if (openFileDialog.ShowDialog() == true)
+            var openFileDialog = new WinForms.OpenFileDialog();
+            if (openFileDialog.ShowDialog() == WinForms.DialogResult.OK)
             {
+                Regex emailChecker = new Regex(@"[^\s]*@[a-z0-9.-]*");
+                openFileDialog.Filter = "txt файлы (*.txt)|*.txt";
+                string path = string.Empty;
+                List<Person> persons = new();
                 path = openFileDialog.FileName;
-            }
-            using (StreamReader streamReader = new StreamReader(path))
-            {
-                string? line = string.Empty;
-                while ((line = streamReader.ReadLine()) != null)
+                using (StreamReader streamReader = new StreamReader(path))
                 {
-                    if (emailChecker.IsMatch(line))
+                    string? line = string.Empty;
+                    while ((line = streamReader.ReadLine()) != null)
                     {
-                        persons.Add(new Person(line.Split('\t')[0], line.Split("\t")[1]));
+                        if (emailChecker.IsMatch(line))
+                        {
+                            persons.Add(new Person(line.Split('\t')[0], line.Split("\t")[1]));
+                        }
                     }
                 }
+                foreach (var person in persons)
+                {
+                    Database.Add(person);
+                }
+                PersonalList.ItemsSource = Database.GetPersonal();
             }
-            foreach (var person in persons)
-            {
-                Database.Add(person);
-            }
-            PersonalList.ItemsSource = Database.GetPersonal();
         }
 
         private void SendMessageButton_Click(object sender, RoutedEventArgs e)
