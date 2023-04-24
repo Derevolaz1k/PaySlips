@@ -14,8 +14,15 @@ namespace Payslips.Data
         {
             using (MyContext db = new MyContext())
             {
-                db.Add(person);
-                db.SaveChanges();
+                try
+                {
+                    db.Add(person);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Ошибка добавления");
+                }
             }
         }
         static public void AddRange(List<Person> persons)

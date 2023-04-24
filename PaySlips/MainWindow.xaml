@@ -52,7 +52,7 @@
             <Label Grid.Column="0" Grid.Row="1" Content="Email:"  VerticalAlignment="Center" HorizontalAlignment="Left"/>
             <TextBox x:Name="EmailTextBox" Text="urpso-mchs@yandex.ru" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Center"/>
             <Label  Grid.Column="0" Grid.Row="3" Content="SMTP:" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-            <TextBox x:Name="SMTPTextBox" Text="smtp.yandex.ru"  Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center"/>
+            <TextBox x:Name="SMTPTextBox" Text="smtp.yandex.ru" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center"/>
             <Label Grid.Column="0" Grid.Row="4" Content="Сообщение:" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
             <TextBox Grid.Column="1" Grid.Row="4" x:Name="MessageTextBox" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Center"/>
         </Grid>

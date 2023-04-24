@@ -13,9 +13,9 @@ namespace Payslips
     {
         public PdfEditor(string pathInput)
         {
-            _pathInputInput = pathInput;
+            _pathInput = pathInput;
         }
-        private string _pathInputInput { get; set; }
+        private string _pathInput { get; set; }
         static public string PathSave { get; set; } = string.Empty;
 
         private Regex _fullName = new Regex(@"\(+\d+\)");//Проверка страницы на наличие номера работника
@@ -49,7 +49,7 @@ namespace Payslips
         }
         public void Divide()
         {
-            using (PdfReader reader = new PdfReader(_pathInputInput))
+            using (PdfReader reader = new PdfReader(_pathInput))
             {
                 Regex fullName = new Regex(@"\n(.*?)(\s\()");
                 List<int> Pages = new List<int>();//Для тех, у кого больше 1 страницы

@@ -1,9 +1,10 @@
 ﻿using Payslips.Data;
 using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
-using Microsoft.Win32;
 using WinForms = System.Windows.Forms;
 
 namespace Payslips
@@ -26,7 +27,7 @@ namespace Payslips
             }
             else
             {
-               var person = new Person(TextBoxWithPersonName.Text, TextBoxWithPersonEmail.Text);
+                var person = new Person(TextBoxWithPersonName.Text, TextBoxWithPersonEmail.Text);
                 Database.Add(person);
                 PersonalList.ItemsSource = Database.GetPersonal();
             }
@@ -72,54 +73,31 @@ namespace Payslips
             {
                 Regex emailChecker = new Regex(@"[^\s]*@[a-z0-9.-]*");
                 openFileDialog.Filter = "txt файлы (*.txt)|*.txt";
-                string path = string.Empty;
-                List<Person> persons = new();
-                path = openFileDialog.FileName;
-                using (StreamReader streamReader = new StreamReader(path))
+
+                using (StreamReader streamReader = new StreamReader(openFileDialog.FileName))
                 {
                     string? line = string.Empty;
                     while ((line = streamReader.ReadLine()) != null)
                     {
                         if (emailChecker.IsMatch(line))
                         {
-                            persons.Add(new Person(line.Split('\t')[0], line.Split("\t")[1]));
+                            Database.Add(new Person(line.Split('\t')[0], line.Split("\t")[1]));
                         }
                     }
-                }
-                foreach (var person in persons)
-                {
-                    Database.Add(person);
                 }
                 PersonalList.ItemsSource = Database.GetPersonal();
             }
         }
-
         private void SendMessageButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(EmailTextBox.Text) || string.IsNullOrEmpty(PasswordTextBox.ToString()) || string.IsNullOrEmpty(SMTPTextBox.Text) || string.IsNullOrEmpty(SMTPPortTextBox.Text)||string.IsNullOrEmpty(PdfPath.Text))
+            MessageSender messageSender = new MessageSender(SMTPTextBox.Text, SMTPPortTextBox.Text, MessageTextBox.Text, EmailTextBox.Text, PasswordTextBox.Password);
+            if (messageSender.IsNotCorrect)
             {
-                MessageBox.Show("Проверьте заполненность полей \"Email\", \"Пароль\", \"SMTP\", \"SMTP порт\", \"Путь к файлу\"");
+                MessageBox.Show("Проверьте заполненность полей");
                 return;
             }
-            int port;
-            List<Person> Personal = new List<Person>();
-            if (int.TryParse(SMTPPortTextBox.Text, out port)) { }
-            else
-            {
-                MessageBox.Show("Ошибка в поле SMTP порт!");
-                return;
-            }
-            PdfEditor pdfEditor = new PdfEditor(PdfPath.Text);
             PdfEditor.PathSave = SavePdfPathTextBox.Text;
-            foreach (Person person in PersonalList.SelectedItems)
-            {
-                Personal.Add(person);
-            }
-            pdfEditor.Divide();
-            MessageSender messageSender = new MessageSender { SmtpPort = port, Smtp = SMTPTextBox.Text, Message = MessageTextBox.Text };
-            messageSender.Send(EmailTextBox.Text, PasswordTextBox.Password, Personal);
-            pdfEditor.DeleteDirectory(!SaveFilesCheckBox.IsChecked);
-            MessageBox.Show("Отправка завершена!");
+            messageSender.Send(PersonalList.SelectedItems.OfType<Person>().ToList(), new PdfEditor(PdfPath.Text), !SaveFilesCheckBox.IsChecked);//todo
         }
 
         private void SaveFiles_Checked(object sender, RoutedEventArgs e)
@@ -137,10 +115,8 @@ namespace Payslips
 
         private void SaveFileDialog_Click(object sender, RoutedEventArgs e)
         {
-            
             var folderBrowser = new WinForms.FolderBrowserDialog();
-
-            if (folderBrowser.ShowDialog()==WinForms.DialogResult.OK)
+            if (folderBrowser.ShowDialog() == WinForms.DialogResult.OK)
             {
                 SavePdfPathTextBox.Text = folderBrowser.SelectedPath;
             }
